@@ -56,7 +56,7 @@ class _TipPlantState extends State<TipPlant> {
           padding: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              color: HexColor(hexColor).withOpacity(0.8)),
+              color: HexColor(hexColor).withOpacity(0.6)),
           child: Row(
             children: [
               Container(

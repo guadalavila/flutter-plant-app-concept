@@ -10,31 +10,34 @@ class Categories extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 15.0),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(
-                categories.length,
-                (int index) => _createCategory(categories[index].image,
-                    categories[index].name, categories[index].color))));
+            children: List.generate(categories.length,
+                (int index) => _createCategory(categories[index]))));
   }
 
-  Widget _createCategory(String image, String title, String color) {
+  Widget _createCategory(Category category) {
     return Container(
         child: Column(
       children: [
         Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18.0),
-                color: HexColor(color).withOpacity(0.3)),
+                color: HexColor(category.color).withOpacity(0.3)),
             width: 70.0,
             height: 70.0,
             padding: EdgeInsets.all(10.0),
-            child: Image(image: AssetImage(image))),
+            child: Image(image: AssetImage(category.image))),
         Container(
+          width: 70.0,
           margin: EdgeInsets.only(top: 20.0),
-          child: Text(title,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12.0,
-                  color: Colors.grey[500])),
+          child: Center(
+            child: Text(category.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.0,
+                    color: Colors.grey[500])),
+          ),
         )
       ],
     ));

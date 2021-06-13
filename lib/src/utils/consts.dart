@@ -10,7 +10,7 @@ const String baseURL = "https://app-plant-demo.herokuapp.com/api";
 
 const APIS = <String, String>{
   "tip": '$baseURL/tip',
-  "plants": "$baseURL/plant",
+  "plants": "$baseURL/plants",
 };
 
 const double kDefaultPadding = 20.0;
