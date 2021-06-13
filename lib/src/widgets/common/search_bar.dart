@@ -55,7 +55,7 @@ class _SearchBarState extends State<SearchBar> {
       decoration: InputDecoration(
           icon: Icon(Icons.search),
           labelStyle: TextStyle(fontSize: 12, color: kGreyColor),
-          labelText: "Buscar...",
+          // labelText: "Buscar...",
           border: InputBorder.none),
       onChanged: (value) {
         setState(() {

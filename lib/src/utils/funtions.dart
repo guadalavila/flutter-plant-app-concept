@@ -1,5 +1,5 @@
 import 'package:flutter_plant_app/src/utils/consts.dart';
 
-String getAPI(String name) {
+String getPathApi(String name) {
   return APIS[name].toString();
 }

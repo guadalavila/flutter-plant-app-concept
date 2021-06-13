@@ -18,7 +18,7 @@ class _TipPlantState extends State<TipPlant> {
   late Future<Tip> futureTip;
 
   Future<Tip> fetchTip() async {
-    final response = await http.get(Uri.parse(getAPI("tip")));
+    final response = await http.get(Uri.parse(getPathApi("tip")));
     if (response.statusCode == 200) {
       return Tip.fromJson(jsonDecode(response.body));
     } else {
