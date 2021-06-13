@@ -9,12 +9,12 @@ class Api {
   Client client = Client();
 
   Future<Tip> fetchTip() async {
-    final response = await http.get(Uri.parse(getAPI("tip")));
+    final response = await http.get(Uri.parse(getPathApi("tip")));
     if (response.statusCode == 201) {
       return Tip.fromJson(jsonDecode(response.body));
     } else {
       print(response.statusCode);
-      throw Exception('Failed to load');
+      throw Exception('Failed to load Tip');
     }
   }
 }

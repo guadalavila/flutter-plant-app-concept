@@ -6,7 +6,7 @@ const kIconColor = Color(0xFF6A6D71);
 const kGreyColor = Color(0xFFA1A1A1);
 const kBackgroundColor = Color(0xFFEEEEEE);
 
-const String baseURL = "https://boiling-bayou-09021.herokuapp.com";
+const String baseURL = "https://app-plant-demo.herokuapp.com/api";
 
 const APIS = <String, String>{
   "tip": '$baseURL/tip',
