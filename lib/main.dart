@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_plant_app/src/pages/home_page/home_page.dart';
+import 'package:flutter_plant_app/src/pages/main_app.dart';
+import 'package:flutter_plant_app/src/pages/onboarding/onboarding_page.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 
 void main() => runApp(MyApp());
@@ -15,9 +16,10 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: kBackgroundColor),
       title: 'Plant App',
-      initialRoute: "/home",
+      initialRoute: "onboarding",
       routes: {
-        "/home": (context) => HomePage(),
+        "mainApp": (context) => MainApp(),
+        "onboarding": (context) => OnBoardingPage(),
       },
     );
   }

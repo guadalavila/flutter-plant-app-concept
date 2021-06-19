@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 
-class Navbar extends StatelessWidget {
+class Navbar extends StatefulWidget {
+  @override
+  _NavbarState createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
+    int _selectedIndex = 0;
+
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     return BottomNavigationBar(
       backgroundColor: Colors.white,
       selectedItemColor: kPrimaryColor,
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
       elevation: 4,
       type: BottomNavigationBarType.fixed,
       items: [

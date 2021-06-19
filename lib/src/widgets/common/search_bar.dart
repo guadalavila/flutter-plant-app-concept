@@ -34,16 +34,12 @@ class _SearchBarState extends State<SearchBar> {
 
   Widget _createButtons(_size) {
     return Container(
-      width: _size.width * 0.2,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(
-            child: Icon(Icons.favorite_border, color: kIconColor),
-          ),
-          SizedBox(
-            child: Icon(Icons.notifications_none_rounded, color: kIconColor),
-          )
+          IconButton(
+              icon: Icon(Icons.notifications_none_rounded, color: kIconColor),
+              onPressed: () {}),
         ],
       ),
     );
