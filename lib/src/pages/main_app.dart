@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_plant_app/src/pages/cart/cart_page.dart';
+import 'package:flutter_plant_app/src/pages/explore/explore_page.dart';
 import 'package:flutter_plant_app/src/pages/favorites/favorites_page.dart';
 import 'package:flutter_plant_app/src/pages/home/home_page.dart';
 import 'package:flutter_plant_app/src/pages/profile/profile_page.dart';
@@ -26,7 +26,7 @@ class _MainAppState extends State<MainApp> {
     List<Widget> _pages = <Widget>[
       HomePage(),
       FavoritePage(),
-      CartPage(),
+      ExplorePage(),
       ProfilePage()
     ];
     return Scaffold(
@@ -45,7 +45,7 @@ class _MainAppState extends State<MainApp> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite), label: 'Favoritos'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), label: 'Carrito'),
+                icon: Icon(Icons.explore_off_sharp), label: 'Novedades'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle_outlined), label: 'Perfil')
           ],

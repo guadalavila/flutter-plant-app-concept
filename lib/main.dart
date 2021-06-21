@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/pages/main_app.dart';
+import 'package:flutter_plant_app/src/pages/notifications/notifications_page.dart';
 import 'package:flutter_plant_app/src/pages/onboarding/onboarding_page.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "mainApp": (context) => MainApp(),
         "onboarding": (context) => OnBoardingPage(),
+        "notifications": (context) => NotificationsPage()
       },
     );
   }

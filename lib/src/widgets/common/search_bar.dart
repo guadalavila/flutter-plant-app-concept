@@ -39,7 +39,9 @@ class _SearchBarState extends State<SearchBar> {
         children: [
           IconButton(
               icon: Icon(Icons.notifications_none_rounded, color: kIconColor),
-              onPressed: () {}),
+              onPressed: () {
+                Navigator.pushNamed(context, "notifications");
+              }),
         ],
       ),
     );

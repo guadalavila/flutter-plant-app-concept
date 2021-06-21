@@ -8,7 +8,7 @@ class OnBoardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: kOnBoardingColor,
       body: SafeArea(
         child: Container(
           child: Column(

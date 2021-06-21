@@ -22,6 +22,11 @@ class _ListPlantState extends State<ListPlant> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   fetchData() async {
     final response = await http.get(Uri.parse(getPathApi('plants')));
     if (response.statusCode == 200) {
