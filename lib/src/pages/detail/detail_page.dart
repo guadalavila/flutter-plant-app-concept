@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/models/plant.dart';
+import 'package:flutter_plant_app/src/providers/catalog_provider.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 import 'package:flutter_plant_app/src/widgets/common/button_primary.dart';
+import 'package:provider/provider.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key, required this.plant}) : super(key: key);
@@ -10,6 +12,7 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _catalogProvider = Provider.of<CatalogProvider>(context);
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -81,7 +84,9 @@ class DetailPage extends StatelessWidget {
             ),
             ButtonPrimary(
               text: plant.stock ? "Agregar" : "Sin Stock",
-              onPressed: () {},
+              onPressed: () {
+                _catalogProvider.addToCatalog(plant);
+              },
               enabled: plant.stock,
             ),
             SizedBox(height: kDefaultPadding)

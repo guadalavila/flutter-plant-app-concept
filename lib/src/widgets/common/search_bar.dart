@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_plant_app/src/pages/cart/cart_page.dart';
+import 'package:flutter_plant_app/src/providers/catalog_provider.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 
 class SearchBar extends StatefulWidget {
@@ -10,6 +13,8 @@ class _SearchBarState extends State<SearchBar> {
   String _keySearch = "";
   @override
   Widget build(BuildContext context) {
+    final _catalogProvider = Provider.of<CatalogProvider>(context);
+
     final _size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -26,19 +31,34 @@ class _SearchBarState extends State<SearchBar> {
               child: _createInputSearch(),
             ),
           ),
-          _createButtons(_size),
+          _createButtons(_size, _catalogProvider.catalog.length),
         ],
       ),
     );
   }
 
-  Widget _createButtons(_size) {
+  Widget _createButtons(_size, catalogSize) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CartPage()));
+                  }),
+              CircleAvatar(
+                radius: 10,
+                child: Text(catalogSize.toString()),
+              )
+            ],
+          ),
           IconButton(
-              icon: Icon(Icons.notifications_none_rounded, color: kIconColor),
+              icon: Icon(Icons.notifications_none_rounded),
               onPressed: () {
                 Navigator.pushNamed(context, "notifications");
               }),

@@ -29,21 +29,14 @@ class NotificationsPage extends StatelessWidget {
             snap: true,
             flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                title: Text('Notificaciones',
+                title: Text("Notificaciones",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black)),
                 background: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          colorFilter: new ColorFilter.mode(
-                              Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              "https://www.nappo.org/application/files/2915/8208/6183/plants.png"))),
-                )),
+                    decoration: BoxDecoration(color: kBackgroundColor))),
           ),
           SliverList(
             delegate: SliverChildListDelegate(_mockNotifications()),
