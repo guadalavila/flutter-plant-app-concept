@@ -85,6 +85,17 @@ class DetailPage extends StatelessWidget {
             ButtonPrimary(
               text: plant.stock ? "Agregar" : "Sin Stock",
               onPressed: () {
+                final snackBar = SnackBar(
+                  backgroundColor: kPrimaryColor,
+                  duration: Duration(seconds: 1),
+                  content: Container(
+                    height: 60.0,
+                    child: Text("Producto Agregado!",
+                        style: TextStyle(fontSize: 16.0)),
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                 _catalogProvider.addToCatalog(plant);
               },
               enabled: plant.stock,
