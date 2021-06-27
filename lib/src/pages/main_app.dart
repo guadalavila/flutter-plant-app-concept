@@ -34,7 +34,6 @@ class _MainAppState extends State<MainApp> {
           child: _pages.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
           selectedItemColor: kPrimaryColor,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,

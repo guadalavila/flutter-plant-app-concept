@@ -56,7 +56,7 @@ class ItemPlant extends StatelessWidget {
                 tag: plant.code,
                 child: FadeInImage(
                   fit: BoxFit.cover,
-                  placeholder: AssetImage("assets/gif/progression.gif"),
+                  placeholder: AssetImage("assets/gif/loading.gif"),
                   image: NetworkImage(plant.imageUrl),
                 ),
               ),

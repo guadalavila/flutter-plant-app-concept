@@ -29,7 +29,10 @@ class ButtonPrimary extends StatelessWidget {
       child: ElevatedButton(
         style: raisedButtonStyle,
         onPressed: enabled ? onPressed : null,
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

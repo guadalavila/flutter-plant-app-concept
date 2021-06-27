@@ -14,7 +14,8 @@ class ListPlant extends StatefulWidget {
 }
 
 class _ListPlantState extends State<ListPlant> {
-  List<Plant> plants = [];
+  List<Plant> plantsIndoor = [];
+  List<Plant> plantsOutdoor = [];
 
   @override
   void initState() {
@@ -30,26 +31,71 @@ class _ListPlantState extends State<ListPlant> {
   fetchData() async {
     final response = await http.get(Uri.parse(getPathApi('plants')));
     if (response.statusCode == 200) {
-      List<Plant> list = [];
-      jsonDecode(response.body).forEach((element) {
-        list.add(Plant.fromJson(element));
+      List<Plant> listIndoor = [];
+      List<Plant> listOutdoor = [];
+
+      jsonDecode(response.body)["indoor"].forEach((element) {
+        listIndoor.add(Plant.fromJson(element));
+      });
+      jsonDecode(response.body)["outdoor"].forEach((element) {
+        listOutdoor.add(Plant.fromJson(element));
       });
       setState(() {
-        plants = list;
+        plantsIndoor = listIndoor;
+        plantsOutdoor = listOutdoor;
       });
     } else {
-      throw Exception('Failed to load tip');
+      throw Exception('Failed to load plants');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(
-            plants.length, (index) => ItemPlant(plant: plants[index])),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        plantsIndoor.length > 0
+            ? _createListPlant("Indoor", plantsIndoor)
+            : Container(),
+        plantsOutdoor.length > 0
+            ? _createListPlant("Outdoor", plantsOutdoor)
+            : Container()
+      ],
+    );
+  }
+
+  Widget _createListPlant(String text, List<Plant> list) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(text,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.0,
+                    color: Colors.grey[600])),
+            // GestureDetector(
+            //     onTap: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => AllPlants(list: list)));
+            //     },
+            //     child: Text("Ver más", style: TextStyle(color: kPrimaryColor)))
+          ]),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+                list.length, (index) => ItemPlant(plant: list[index])),
+          ),
+        ),
+        SizedBox(height: 30.0),
+      ],
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/models/plant.dart';
+import 'package:flutter_plant_app/src/providers/catalog_provider.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
+import 'package:provider/provider.dart';
 
 class ItemPlantDefault extends StatelessWidget {
   const ItemPlantDefault({Key? key, required this.plant}) : super(key: key);
@@ -8,6 +10,7 @@ class ItemPlantDefault extends StatelessWidget {
   final Plant plant;
   @override
   Widget build(BuildContext context) {
+    final _catalogProvider = Provider.of<CatalogProvider>(context);
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -51,7 +54,9 @@ class ItemPlantDefault extends StatelessWidget {
                 icon: Icon(
                   Icons.delete_sweep_outlined,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  _catalogProvider.removoFromCatalog(plant);
+                },
               ),
             )
           ])),

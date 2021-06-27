@@ -26,4 +26,13 @@ class Plant {
         stock: json['stock'],
         houseplant: json['houseplant']);
   }
+  Map<String, dynamic> toJson() => {
+        'code': code,
+        'name': name,
+        'description': description,
+        'imageUrl': imageUrl,
+        'price': price,
+        'stock': stock,
+        'houseplant': houseplant,
+      };
 }

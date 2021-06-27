@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/models/plant.dart';
 import 'package:flutter_plant_app/src/providers/catalog_provider.dart';
+import 'package:flutter_plant_app/src/providers/favorites_provider.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 import 'package:flutter_plant_app/src/widgets/common/button_primary.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _catalogProvider = Provider.of<CatalogProvider>(context);
     final _size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -79,7 +81,7 @@ class DetailPage extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(25.0),
                         topLeft: Radius.circular(25.0))),
-                child: _createDetail(),
+                child: _createDetail(context),
               ),
             ),
             ButtonPrimary(
@@ -140,13 +142,13 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget _createDetail() {
+  Widget _createDetail(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 30.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _headerPlant(),
+          _headerPlant(context),
           _pricePlant(),
           _descriptionPlant(),
           _footer()
@@ -155,7 +157,8 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget _headerPlant() {
+  Widget _headerPlant(BuildContext context) {
+    final _favoritesProvider = Provider.of<FavoritesProvider>(context);
     return Row(
       children: [
         Expanded(
@@ -168,12 +171,18 @@ class DetailPage extends StatelessWidget {
         ),
         IconButton(
             icon: Icon(
-              Icons.favorite,
+              _favoritesProvider.isFav(plant)
+                  ? Icons.favorite
+                  : Icons.favorite_outline_rounded,
               color: Colors.red,
             ),
             color: Colors.black,
             iconSize: 25.0,
-            onPressed: () {}),
+            onPressed: () {
+              _favoritesProvider.isFav(plant)
+                  ? _favoritesProvider.removeFav(plant)
+                  : _favoritesProvider.addToFav(plant);
+            }),
       ],
     );
   }

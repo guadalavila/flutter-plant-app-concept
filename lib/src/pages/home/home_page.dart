@@ -11,13 +11,13 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            SizedBox(height: kToolbarHeight),
+            SizedBox(height: 10.0),
             SearchBar(),
             TipPlant(),
             Categories(),
             SizedBox(height: 15.0),
             ListPlant(),
-            SizedBox(height: 30.0)
+            SizedBox(height: 50.0)
           ],
         ),
       ),

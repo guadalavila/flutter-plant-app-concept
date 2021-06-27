@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/models/notification.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
+import 'package:flutter_plant_app/src/widgets/common/sliver_app.dart';
 
 class NotificationsPage extends StatelessWidget {
   final List<Notice> notifications = Notice.notifications;
@@ -9,35 +10,8 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                ),
-                iconSize: 25.0,
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
-            backgroundColor: kBackgroundColor,
-            expandedHeight: 140.0,
-            elevation: 1,
-            actions: [],
-            floating: true,
-            pinned: true,
-            snap: true,
-            flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text("Notificaciones",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
-                background: Container(
-                    decoration: BoxDecoration(color: kBackgroundColor))),
-          ),
+        slivers: [
+          SliverApp(title: "Notificaciones", backButton: true),
           SliverList(
             delegate: SliverChildListDelegate(_mockNotifications()),
           ),

@@ -61,7 +61,7 @@ class ListProducts extends StatelessWidget {
                         )
                       ],
                     ),
-                    Divider(height: 2, thickness: 2, indent: 0, endIndent: 0),
+                    Divider(height: 1, thickness: 1, indent: 0, endIndent: 0),
                     Row(
                       children: [
                         Text(
