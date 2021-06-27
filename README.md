@@ -1,13 +1,12 @@
 # flutter_plant_app
 
-A new Flutter project.
+Flutter project.
 
 <p>
-    <img  height="300" src="doc/images/flutter_01.png">
-    <img  height="300" src="doc/images/flutter_02.png">
-    <img  height="300" src="doc/images/flutter_03.png">
-    <img  height="300" src="doc/images/flutter_04.png">
-
+    <img height="600" src="doc/images/flutter_01.png">
+    <img height="600" src="doc/images/flutter_02.png">
+    <img height="600" src="doc/images/flutter_03.png">
+    <img height="600" src="doc/images/flutter_04.png">
 </p>
 
 ## Getting Started
