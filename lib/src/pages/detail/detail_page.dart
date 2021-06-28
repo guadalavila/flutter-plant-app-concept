@@ -17,74 +17,81 @@ class DetailPage extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            _createHeader(context),
-            Container(
-              height: _size.height * 0.4,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Categoria",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              plant.houseplant ? "Indoor" : "Outdoor",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: kPrimaryColorDark,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
+      appBar: AppBar(
+        backgroundColor: kBackgroundColor,
+        actions: [
+          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: kBackgroundColor,
+            height: _size.height * 0.4,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Categoria",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            plant.houseplant ? "Indoor" : "Outdoor",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: kPrimaryColorDark,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
-                      Container(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Tamaño",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              "Chico",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: kPrimaryColorDark,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  _imagePlant(context)
-                ],
-              ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Tamaño",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            "Chico",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: kPrimaryColorDark,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                _imagePlant(context)
+              ],
             ),
-            Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 1,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(25.0),
-                        topLeft: Radius.circular(25.0))),
-                child: _createDetail(context),
-              ),
+          ),
+          Expanded(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 1,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(25.0),
+                      topLeft: Radius.circular(25.0))),
+              child: _createDetail(context),
             ),
-            ButtonPrimary(
+          ),
+          Container(
+            color: Colors.white,
+            child: ButtonPrimary(
               text: plant.stock ? "Agregar" : "Sin Stock",
               onPressed: () {
                 final snackBar = SnackBar(
@@ -97,35 +104,15 @@ class DetailPage extends StatelessWidget {
                   ),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
                 _catalogProvider.addToCatalog(plant);
               },
               enabled: plant.stock,
             ),
-            SizedBox(height: kDefaultPadding)
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _createHeader(context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-              icon: Icon(Icons.arrow_back),
-              color: Colors.black,
-              iconSize: 25.0,
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-          IconButton(
-              icon: Icon(Icons.more_vert),
-              color: Colors.black,
-              iconSize: 30.0,
-              onPressed: () {}),
+          ),
+          Container(
+            color: Colors.white,
+            height: kDefaultPadding * 2,
+          )
         ],
       ),
     );
@@ -151,7 +138,6 @@ class DetailPage extends StatelessWidget {
           _headerPlant(context),
           _pricePlant(),
           _descriptionPlant(),
-          _footer()
         ],
       ),
     );
@@ -207,9 +193,5 @@ class DetailPage extends StatelessWidget {
       overflow: TextOverflow.fade,
       style: TextStyle(color: Colors.grey[700]),
     ));
-  }
-
-  Widget _footer() {
-    return Container();
   }
 }
