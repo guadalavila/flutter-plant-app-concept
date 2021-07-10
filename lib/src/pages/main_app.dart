@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/pages/explore/explore_page.dart';
 import 'package:flutter_plant_app/src/pages/favorites/favorites_page.dart';
 import 'package:flutter_plant_app/src/pages/home/home_page.dart';
-import 'package:flutter_plant_app/src/pages/profile/profile_page.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 
 class MainApp extends StatefulWidget {
@@ -27,7 +26,7 @@ class _MainAppState extends State<MainApp> {
       HomePage(),
       FavoritePage(),
       ExplorePage(),
-      ProfilePage()
+      // ProfilePage()
     ];
     return Scaffold(
         body: Center(
@@ -45,8 +44,8 @@ class _MainAppState extends State<MainApp> {
                 icon: Icon(Icons.favorite), label: 'Favoritos'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.explore_off_sharp), label: 'Novedades'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle_outlined), label: 'Perfil')
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.account_circle_outlined), label: 'Perfil')
           ],
         ));
   }

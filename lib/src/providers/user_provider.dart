@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider with ChangeNotifier {
-  String _username = 'Guest';
+  late User _user;
 
-  String get username => _username;
+  User get user => _user;
 
-  void onChange(value) {
-    _username = value;
+  void setUser(User data) {
+    _user = data;
     notifyListeners();
   }
 }
