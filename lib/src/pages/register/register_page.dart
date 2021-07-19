@@ -14,9 +14,11 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _registerFormKey = GlobalKey<FormState>();
   final _nameTextController = TextEditingController();
+  final _lastNameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final _focusName = FocusNode();
+  final _focusLastName = FocusNode();
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
   bool _isProcessing = false;
@@ -26,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return GestureDetector(
       onTap: () {
         _focusName.unfocus();
+        _focusLastName.unfocus();
         _focusEmail.unfocus();
         _focusPassword.unfocus();
       },
@@ -47,9 +50,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       TextFormField(
                         controller: _nameTextController,
                         focusNode: _focusName,
-                        validator: (value) => Validator.validateName(
-                          name: value,
-                        ),
+                        validator: (value) =>
+                            Validator.validateName(name: value),
                         decoration: InputDecoration(
                           hintText: "Nombre",
                           hintStyle: TextStyle(color: kPrimaryColor),
@@ -63,11 +65,27 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       SizedBox(height: 16.0),
                       TextFormField(
+                        controller: _lastNameTextController,
+                        focusNode: _focusLastName,
+                        validator: (value) =>
+                            Validator.validateLastName(lastName: value),
+                        decoration: InputDecoration(
+                          hintText: "Apellido",
+                          hintStyle: TextStyle(color: kPrimaryColor),
+                          errorBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                            borderSide: BorderSide(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      TextFormField(
                         controller: _emailTextController,
                         focusNode: _focusEmail,
-                        validator: (value) => Validator.validateEmail(
-                          email: value,
-                        ),
+                        validator: (value) =>
+                            Validator.validateEmail(email: value),
                         decoration: InputDecoration(
                           hintText: "Email",
                           hintStyle: TextStyle(color: kPrimaryColor),
@@ -84,17 +102,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: _passwordTextController,
                         focusNode: _focusPassword,
                         obscureText: true,
-                        validator: (value) => Validator.validatePassword(
-                          password: value,
-                        ),
+                        validator: (value) =>
+                            Validator.validatePassword(password: value),
                         decoration: InputDecoration(
                           hintText: "Contraseña",
                           hintStyle: TextStyle(color: kPrimaryColor),
                           errorBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                         ),
                       ),
@@ -116,6 +131,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         User? user = await FireAuth
                                             .registerUsingEmailPassword(
                                           name: _nameTextController.text,
+                                          lastName:
+                                              _lastNameTextController.text,
                                           email: _emailTextController.text,
                                           password:
                                               _passwordTextController.text,
@@ -127,9 +144,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProfilePage(user: user),
-                                            ),
+                                                builder: (context) =>
+                                                    ProfilePage()
+                                                // ProfilePage(user: user),
+                                                ),
                                             ModalRoute.withName('/'),
                                           );
                                         }

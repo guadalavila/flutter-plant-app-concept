@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/models/Tip.dart';
-import 'package:flutter_plant_app/src/utils/funtions.dart';
+import 'package:flutter_plant_app/src/repository/tip_Repository.dart';
+import 'package:flutter_plant_app/src/services/ApiHelper.dart';
 import 'package:flutter_plant_app/src/widgets/common/loading.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:http/http.dart' as http;
 import 'package:carousel_slider/carousel_slider.dart';
 
 class TipPlant extends StatefulWidget {
@@ -16,47 +17,47 @@ class TipPlant extends StatefulWidget {
 }
 
 class _TipPlantState extends State<TipPlant> {
-  late List<Tip> tips = [];
+  TipRepository _tipRepository = TipRepository();
+  ApiHelper _apiHelper = ApiHelper();
 
-  fetchTips() async {
-    final response = await http.get(Uri.parse(getPathApi("tip")));
+  Future<List<Tip>> getData() async {
+    var response = await _tipRepository.fetchTips();
     if (response.statusCode == 200) {
-      List<Tip> listTips = (json.decode(response.body) as List)
-          .map((i) => Tip.fromJson(i))
-          .toList();
-      setState(() {
-        tips = listTips;
-      });
+      List jsonResponse = json.decode(response.body) as List;
+      return jsonResponse.map((tip) => Tip.fromJson(tip)).toList();
     } else {
-      throw Exception('Failed to load tip');
+      return _apiHelper.returnResponse(response);
     }
   }
 
   @override
-  void initState() {
-    fetchTips();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return tips.length != 0
-        ? Container(
+    return FutureBuilder<List<Tip>>(
+      future: getData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
             child: CarouselSlider(
-              options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  autoPlay: false,
-                  aspectRatio: 2,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                  viewportFraction: 0.8),
-              items: _generateList(),
-            ),
-          )
-        : Loading();
+                options: CarouselOptions(
+                    enlargeCenterPage: true,
+                    autoPlay: false,
+                    aspectRatio: 2,
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enableInfiniteScroll: true,
+                    viewportFraction: 0.8),
+                items: _generateList(snapshot.data!)),
+          );
+        } else if (snapshot.hasError) {
+          return Container(
+            child: Text("${snapshot.error}"),
+          );
+        }
+        return Loading();
+      },
+    );
   }
 
-  List<Widget> _generateList() {
+  List<Widget> _generateList(List<Tip> tips) {
     List<Widget> list = [];
     tips.forEach((tip) {
       list.add(ItemTip(tip: tip));

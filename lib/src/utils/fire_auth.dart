@@ -4,6 +4,7 @@ class FireAuth {
   // For registering a new user
   static Future<User?> registerUsingEmailPassword({
     required String name,
+    required String lastName,
     required String email,
     required String password,
   }) async {
@@ -17,7 +18,7 @@ class FireAuth {
       );
 
       user = userCredential.user;
-      await user!.updateProfile(displayName: name);
+      await user!.updateProfile(displayName: name + " " + lastName);
       await user.reload();
       user = auth.currentUser;
     } on FirebaseAuthException catch (e) {

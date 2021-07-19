@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_plant_app/src/models/enum.dart';
+import 'package:flutter_plant_app/src/pages/main_app.dart';
 import 'package:flutter_plant_app/src/pages/register/register_page.dart';
 import 'package:flutter_plant_app/src/providers/user_provider.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
 import 'package:flutter_plant_app/src/utils/fire_auth.dart';
+import 'package:flutter_plant_app/src/utils/funtions.dart';
 import 'package:flutter_plant_app/src/utils/validator.dart';
 import 'package:flutter_plant_app/src/widgets/common/button_primary.dart';
 import 'package:flutter_plant_app/src/widgets/common/button_secondary.dart';
@@ -26,21 +29,21 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<FirebaseApp> _initializeFirebase() async {
     print("firebase initialize...");
-    final _userProvder = Provider.of<UserProvider>(context);
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => RegisterPage(),
-        ),
-      );
-    }
+    // if (user != null) {
+    //   Navigator.of(context).pushReplacement(
+    //     MaterialPageRoute(
+    //       builder: (context) => OnBoardingPage(),
+    //     ),
+    //   );
+    // }
     return firebaseApp;
   }
 
   @override
   Widget build(BuildContext context) {
+    final _userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
         _focusEmail.unfocus();
@@ -119,14 +122,20 @@ class _LoginPageState extends State<LoginPage> {
                                         setState(() {
                                           _isProcessing = false;
                                         });
-                                        // if (user != null) {
-                                        //   Navigator.of(context).pushReplacement(
-                                        //     MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           FavoritePage(),
-                                        //     ),
-                                        //   );
-                                        // }
+                                        if (user != null) {
+                                          _userProvider.setUser(user);
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) => MainApp(),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(getSnackBar(
+                                                  "Algunos datos no son correctos",
+                                                  SnackbarType.error,
+                                                  time: 4));
+                                        }
                                       }
                                     },
                                     text: "Ingresar",

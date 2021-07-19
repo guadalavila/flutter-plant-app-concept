@@ -1,8 +1,12 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_plant_app/src/models/enum.dart';
 import 'package:flutter_plant_app/src/models/plant.dart';
 import 'package:flutter_plant_app/src/providers/catalog_provider.dart';
 import 'package:flutter_plant_app/src/providers/favorites_provider.dart';
 import 'package:flutter_plant_app/src/utils/consts.dart';
+import 'package:flutter_plant_app/src/utils/funtions.dart';
 import 'package:flutter_plant_app/src/widgets/common/button_primary.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +24,37 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kBackgroundColor,
         actions: [
-          IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                showAdaptiveActionSheet(
+                  context: context,
+                  actions: <BottomSheetAction>[
+                    BottomSheetAction(
+                        title: const Text('Agregar al Carrito'),
+                        onPressed: () {
+                          if (plant.stock) {
+                            _catalogProvider.addToCatalog(plant);
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(
+                                    "Producto Agregado", SnackbarType.sucess));
+                          } else {
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar("No hay stock del producto",
+                                    SnackbarType.error));
+                          }
+                        }),
+                  ],
+                  cancelAction: CancelAction(
+                      title: const Text('Cancelar',
+                          style: TextStyle(color: Colors.grey))),
+                );
+                // showCupertinoModalPopup(
+                //     context: context,
+                //     builder: (context) => _buildCupertinoActionSheet(context));
+              }),
         ],
       ),
       body: Column(
@@ -92,22 +126,13 @@ class DetailPage extends StatelessWidget {
           Container(
             color: Colors.white,
             child: ButtonPrimary(
-              text: plant.stock ? "Agregar" : "Sin Stock",
-              onPressed: () {
-                final snackBar = SnackBar(
-                  backgroundColor: kPrimaryColor,
-                  duration: Duration(seconds: 1),
-                  content: Container(
-                    height: 60.0,
-                    child: Text("Producto Agregado!",
-                        style: TextStyle(fontSize: 16.0)),
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                _catalogProvider.addToCatalog(plant);
-              },
-              enabled: plant.stock,
-            ),
+                text: plant.stock ? "Agregar" : "Sin Stock",
+                onPressed: () {
+                  _catalogProvider.addToCatalog(plant);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      getSnackBar("Producto Agregado", SnackbarType.sucess));
+                },
+                enabled: plant.stock),
           ),
           Container(
             color: Colors.white,
@@ -194,4 +219,28 @@ class DetailPage extends StatelessWidget {
       style: TextStyle(color: Colors.grey[700]),
     ));
   }
+
+  Widget _buildCupertinoActionSheet(BuildContext context) {
+    return CupertinoActionSheet(
+      title: Text("Opciones"), //1
+      actions: [
+        CupertinoActionSheetAction(
+            onPressed: () {},
+            child: Text(
+              'Agregar Favorito',
+              style: TextStyle(color: Colors.grey),
+            )),
+        CupertinoActionSheetAction(
+            onPressed: () {},
+            child: Text('Agregar al Carrito',
+                style: TextStyle(color: Colors.grey))),
+      ],
+      cancelButton: CupertinoActionSheetAction(
+          isDestructiveAction: true,
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text("Cancelar")),
+    );
+  }
+
+  void _addToCart() {}
 }

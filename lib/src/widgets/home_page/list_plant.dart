@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_plant_app/src/models/plant.dart';
-import 'package:flutter_plant_app/src/utils/funtions.dart';
+import 'package:flutter_plant_app/src/repository/plant_repository.dart';
+import 'package:flutter_plant_app/src/services/ApiHelper.dart';
+import 'package:flutter_plant_app/src/widgets/common/loading.dart';
 import 'package:flutter_plant_app/src/widgets/home_page/item_plant.dart';
-import 'package:http/http.dart' as http;
 
 class ListPlant extends StatefulWidget {
   const ListPlant({Key? key}) : super(key: key);
@@ -14,53 +15,36 @@ class ListPlant extends StatefulWidget {
 }
 
 class _ListPlantState extends State<ListPlant> {
-  List<Plant> plantsIndoor = [];
-  List<Plant> plantsOutdoor = [];
+  PlantRepository _plantRepository = new PlantRepository();
+  ApiHelper _apiHelper = ApiHelper();
 
-  @override
-  void initState() {
-    fetchData();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  fetchData() async {
-    final response = await http.get(Uri.parse(getPathApi('plants')));
+  Future<List<List<Plant>>> _getPlants() async {
+    var response = await _plantRepository.fetchPlants();
     if (response.statusCode == 200) {
-      List<Plant> listIndoor = [];
-      List<Plant> listOutdoor = [];
-
-      jsonDecode(response.body)["indoor"].forEach((element) {
-        listIndoor.add(Plant.fromJson(element));
-      });
-      jsonDecode(response.body)["outdoor"].forEach((element) {
-        listOutdoor.add(Plant.fromJson(element));
-      });
-      setState(() {
-        plantsIndoor = listIndoor;
-        plantsOutdoor = listOutdoor;
-      });
+      List jsonResponse = json.decode(response.body)['indoor'];
+      List jsonResponseOut = json.decode(response.body)['outdoor'];
+      return [
+        jsonResponse.map((p) => Plant.fromJson(p)).toList(),
+        jsonResponseOut.map((p) => Plant.fromJson(p)).toList()
+      ];
     } else {
-      throw Exception('Failed to load plants');
+      return _apiHelper.returnResponse(response);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        plantsIndoor.length > 0
-            ? _createListPlant("Indoor", plantsIndoor)
-            : Container(),
-        plantsOutdoor.length > 0
-            ? _createListPlant("Outdoor", plantsOutdoor)
-            : Container()
-      ],
+    return FutureBuilder<List<List<Plant>>>(
+      future: _getPlants(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Column(children: [
+            _createListPlant("Indoor", snapshot.data![0]),
+            _createListPlant("Outdoor", snapshot.data![1])
+          ]);
+        } else if (snapshot.hasError) {}
+        return Loading();
+      },
     );
   }
 
